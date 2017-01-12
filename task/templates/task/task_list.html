@@ -1,42 +1,37 @@
-    yeeeeeeeeeeaaaaaaaaahhhhhhhhhh
+{% load static from staticfiles %}<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>kyon task manager</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
 
-    {{ tasks }}
+        <link href="{% static "bootstrap/css/bootstrap.min.css" %}" rel="stylesheet" type="text/css"/>
+        <script src="{% static "bootstrap/js/bootstrap.js" %}"></script>
+        <script src="{% static "jquery/jquery.min.js" %}"></script>
+        {{ form.media }}
+    </head>
 
-    <ul>
-        タスク一覧
-        {% for task in tasks %}
-            <li>{{ task.title }}
-            {{ task.due_date }}</li>
-        {% endfor %}
-    </ul>
-
-    <ul>
-        タスク一覧
-        {% for task in tasks %}
-            {% if task.done_date %}
-                <li>{{ task }}(だん)</li>
-            {% elif task.due_date < now %}
-                <li>{{ task }}(期限切れ)</li>
-            {% else %}
-                <li>{{ task }}(まだきげん)</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-    
-    <ul>
-        きげんぎれ
-        {% for task in tasks %}
-            {% if task.due_date < now %}
-                <li>{{ task }}</li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-
-    <ul>
-    だんしたやつ
-        {% for task in tasks %}
-            {% if task.done_date  %}
-                <li>{{ task }}</li>
-            {% endif %}
-        {% endfor %}
-    </li>
+    <body>
+        <h1>kyon task manager</h1>
+        
+        <h2>タスク追加</h2>
+        <form method="POST">{% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" >Save</button>
+        </form>
+        
+        <h2>タスク一覧</h2>
+        {{ tasks }}
+        <ul>
+            {% for task in tasks %}
+                {% if task.done_date %}
+                    <li>{{ task }}(だん)</li>
+                {% elif task.due_date < now %}
+                    <li>{{ task }}(期限切れ)</li>
+                {% else %}
+                    <li>{{ task }}(まだきげん)</li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </body>
+</html>
