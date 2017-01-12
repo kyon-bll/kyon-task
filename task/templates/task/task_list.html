@@ -23,10 +23,12 @@
             {% for task in tasks %}
                 {% if task.done_date %}
                     <li>{{ task }}(だん)</li>
+                {% elif not task.due_date %}
+                    <li>{{ task }}(期限なし)</li>
                 {% elif task.due_date < now %}
-                    <li>{{ task }}(期限切れ)</li>
+                    <li>{{ task }}:{{ task.due_date|date:"Y/n/d"}}(期限切れ)</li>
                 {% else %}
-                    <li>{{ task }}(まだきげん)</li>
+                    <li>{{ task }}:{{ task.due_date|date:"Y/n/d"}}(まだきげん)</li>
                 {% endif %}
             {% endfor %}
         </ul>
